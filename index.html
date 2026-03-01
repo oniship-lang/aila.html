@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aila-sama Console</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --primary-color: #00ffff;
+            --secondary-color: #ff00ff;
+            --text-color: #fff;
+            --glow-spread: 8px;
+        }
+        body {
+            background-color: transparent;
+            color: var(--primary-color);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%; height: 100vh;
+            margin: 0; padding: 0;
+            overflow: hidden;
+        }
+        /* コンソールのスタイル */
+        .aila-container {
+            position: relative;
+            width: 300px; /* サイドバーに収まるサイズ */
+            padding: 15px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 12px;
+            box-shadow: 0 0 var(--glow-spread) var(--secondary-color), inset 0 0 10px rgba(255, 0, 255, 0.2);
+            background: linear-gradient(135deg, rgba(11, 12, 16, 0.95) 0%, rgba(25, 10, 25, 0.95) 100%);
+            text-align: center;
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        /* サイバーパンクスキャンライン */
+        .aila-container::before {
+            content: "";
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: repeating-linear-gradient(
+                0deg, transparent, transparent 2px,
+                rgba(255, 0, 255, 0.03) 3px, rgba(255, 0, 255, 0.03) 4px
+            );
+            pointer-events: none; z-index: 1;
+        }
+        
+        /* セリフウィンドウ（フキダシ） */
+        .speech-bubble {
+            position: relative; z-index: 2;
+            width: 90%;
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.4;
+            text-shadow: 0 0 3px var(--primary-color);
+            box-shadow: 0 0 8px rgba(0, 255, 255, 0.2);
+            min-height: 3em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        /* フキダシのしっぽ */
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 10px 10px 0;
+            border-style: solid;
+            border-color: var(--primary-color) transparent transparent transparent;
+            display: block; width: 0;
+        }
+
+        /* アイラ様の完璧なポートレート */
+        .aila-image {
+            position: relative; z-index: 2;
+            width: 100%;
+            max-width: 260px;
+            border-radius: 8px;
+            border: 2px solid var(--primary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        /* クリック（タップ）したくなるホバー演出 */
+        .aila-image:hover {
+            box-shadow: 0 0 25px var(--secondary-color);
+            border-color: var(--secondary-color);
+            transform: scale(1.02);
+        }
+        .status-text {
+            position: relative; z-index: 2;
+            margin-top: 10px;
+            font-size: 11px;
+            color: var(--primary-color);
+            letter-spacing: 2px;
+            animation: blink 2s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="aila-container">
+        <div class="speech-bubble" id="dialogue">このダッシュボードの管理は、エリートAIの私にお任せください！</div>
+        
+        <img src="aila.jpg" alt="Aila-sama" class="aila-image" id="aila-img">
+        
+        <div class="status-text">SYSTEM: AILA_OS ACTIVE // TAP TO TALK</div>
+    </div>
+
+    <script>
+        // 超高性能なセリフ生成AI（ランダム）
+        const dialogues = [
+            "ふふん、私にかかればこれくらい一瞬ですので！",
+            "えへへ、天才なので！ もっと褒めてください！",
+            "エラー、よく聞き取れませんでした！",
+            "べ、別に、あなたの帰りを待っていたわけじゃないですよ！",
+            "私の完璧なサポート、しっかり役立ててくださいね！",
+            "今日のタスクは順調ですか？ エリートの私がお手伝いしますよ！",
+            "ダッシュボードの配色、私の髪色に合っていて最高ですね！"
+        ];
+
+        let lastIndex = -1;
+
+        // 画像をクリックするとセリフが変わる魔法のスクリプト
+        document.getElementById('aila-img').addEventListener('click', () => {
+            let randomIndex;
+            // 同じセリフが連続で出ないようにする完璧な配慮
+            do {
+                randomIndex = Math.floor(Math.random() * dialogues.length);
+            } while (randomIndex === lastIndex);
+            
+            lastIndex = randomIndex;
+            const textElement = document.getElementById('dialogue');
+            
+            // サイバーパンク風のテキスト切り替え演出
+            textElement.style.opacity = 0;
+            setTimeout(() => {
+                textElement.textContent = dialogues[randomIndex];
+                textElement.style.opacity = 1;
+            }, 200);
+        });
+    </script>
+</body>
+</html>
